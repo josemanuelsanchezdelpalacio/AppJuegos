@@ -41,12 +41,17 @@ fun nonesScreen(navController: NavController) {
     var numeroJugador by rememberSaveable { mutableStateOf("") }
 
     var nonesPC by rememberSaveable { mutableStateOf("") }
-    var numeroPC = (0..5).random()
+    var numeroPC by rememberSaveable { mutableStateOf(0) }
 
     var suma by rememberSaveable { mutableStateOf(0) }
     var ganador by rememberSaveable { mutableStateOf("") }
     var mostrarAlertDialog by rememberSaveable { mutableStateOf(false) }
 
+    //funcion para que la PC elija entre pares o nones
+    fun elegirNonesPC() {
+        nonesPC = if (Random.nextBoolean()) "nones" else "pares"
+    }
+    
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -85,14 +90,17 @@ fun nonesScreen(navController: NavController) {
 
         Button(
             onClick = {
+                elegirNonesPC()
+                // Genera un número aleatorio entre 1 y 5 para la PC
+                numeroPC = (1..5).random()
                 suma = numeroJugador.toInt() + numeroPC
 
-                if(suma % 2 == 0){
+                if ((nonesJugador == "nones" && suma % 2 != 0) || (nonesJugador == "pares" && suma % 2 == 0)) {
                     mostrarAlertDialog = true
-                    ganador = "pares"
-                }else{
+                    ganador = "Jugador"
+                } else {
                     mostrarAlertDialog = true
-                    ganador = "nones"
+                    ganador = "PC"
                 }
             },
             modifier = Modifier
