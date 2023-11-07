@@ -24,13 +24,18 @@ import androidx.navigation.NavController
 import com.dam2jms.appjuegos.data.lista
 import com.dam2jms.appjuegos.data.listaEleccionPC
 
+
+//metodo con una lista con las opciones de piedra, papel, tijeras que la randomiza
+fun eleccionAleatoriaPC(): String {
+    val opciones = listOf("piedra", "papel", "tijeras")
+    return opciones.random()
+}
+
 @Composable
 fun piedraScreen(navController: NavController) {
 
     var eleccionJugador by rememberSaveable { mutableStateOf("") }
-
     var eleccionPC by rememberSaveable { mutableStateOf("") }
-
     var ganador by rememberSaveable { mutableStateOf("") }
     var mostrarAlertDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -71,7 +76,7 @@ fun piedraScreen(navController: NavController) {
                 //si es nones y es impar la suma o si es pares y es par la suma muestra el alertdialog con el ganador segun la suma de los numeros
                 if (eleccionJugador.equals(eleccionPC)) {
                     mostrarAlertDialog = true
-                    ganador = "mos los dos"
+                    ganador = "nadie"
                 } else if (
                     (eleccionJugador.equals("piedra") && eleccionPC.equals("tijeras")) ||
                     (eleccionJugador.equals("papel") && eleccionPC.equals("piedra")) ||
@@ -92,12 +97,4 @@ fun piedraScreen(navController: NavController) {
             Text(text = "JUGAR")
         }
     }
-}
-
-//metodo que recorre el hashMap y añade a la lista las preguntas. Despues las devuelve de forma aleatoria
-fun eleccionAleatoriaPC():String {
-    for (pregunta in lista) {
-        listaEleccionPC.add(pregunta.key)
-    }
-    return listaEleccionPC.shuffle().toString()
 }

@@ -16,35 +16,61 @@ import androidx.navigation.NavController
 import com.dam2jms.appjuegos.navigation.AppScreens
 
 @Composable
-fun mainScreen(navController: NavController){
-    Column (
+fun mainScreen(navController: NavController) {
+    Column(
         modifier = Modifier
             .padding(16.dp)
             .fillMaxWidth(),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
-    ){
+    ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
-        ){
-            Button(onClick = { navController.navigate(route = AppScreens.NonesScreen.route) }) {
-                Text(text = "Pares y Nones")
-            }
-            Button(onClick = { navController.navigate(route = AppScreens.PiedraScreen.route) }) {
-                Text(text = "Piedra, papel y tijeras")
-            }
+        ) {
+            SquareButton(
+                onClick = { navController.navigate(route = AppScreens.NonesScreen.route) },
+                image = painterResource(R.drawable.nones_image), // Reemplaza con tu propia imagen
+                contentDescription = "Nones"
+            )
+            SquareButton(
+                onClick = { navController.navigate(route = AppScreens.PiedraScreen.route) },
+                image = painterResource(R.drawable.piedra_image), // Reemplaza con tu propia imagen
+                contentDescription = "Piedra, papel y tijeras"
+            )
         }
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { navController.navigate(route = AppScreens.SieteScreen.route) }) {
-                Text(text = "Siete y medio")
-            }
-            Button(onClick = { navController.navigate(route = AppScreens.NonesScreen.route) }) {
-                Text(text = "")
-            }
+            SquareButton(
+                onClick = { navController.navigate(route = AppScreens.SieteScreen.route) },
+                image = painterResource(R.drawable.siete_image), // Reemplaza con tu propia imagen
+                contentDescription = "Siete y medio"
+            )
+            SquareButton(
+                onClick = { navController.navigate(route = AppScreens.NonesScreen.route) },
+                image = painterResource(R.drawable.empty_image), // Reemplaza con tu propia imagen o usa una imagen transparente
+                contentDescription = ""
+            )
         }
+    }
+}
+
+@Composable
+fun SquareButton(
+    onClick: () -> Unit,
+    image: Painter,
+    contentDescription: String
+) {
+    IconButton(
+        onClick = onClick,
+        modifier = Modifier.size(100.dp) // Ajusta el tamaño cuadrado aquí
+    ) {
+        Icon(
+            painter = image,
+            contentDescription = contentDescription,
+            modifier = Modifier.fillMaxSize()
+        )
     }
 }
