@@ -31,7 +31,7 @@ fun mainScreen(navController: NavController){
             Button(onClick = { navController.navigate(route = AppScreens.NonesScreen.route) }) {
                 Text(text = "Pares y Nones")
             }
-            Button(onClick = { navController.navigate(route = AppScreens.NonesScreen.route) }) {
+            Button(onClick = { navController.navigate(route = AppScreens.PiedraScreen.route) }) {
                 Text(text = "Piedra, papel y tijeras")
             }
         }
@@ -39,7 +39,7 @@ fun mainScreen(navController: NavController){
             horizontalArrangement = Arrangement.SpaceBetween,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Button(onClick = { navController.navigate(route = AppScreens.NonesScreen.route) }) {
+            Button(onClick = { navController.navigate(route = AppScreens.SieteScreen.route) }) {
                 Text(text = "Siete y medio")
             }
             Button(onClick = { navController.navigate(route = AppScreens.NonesScreen.route) }) {

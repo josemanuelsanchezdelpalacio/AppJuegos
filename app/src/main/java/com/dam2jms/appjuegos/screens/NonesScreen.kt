@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.dam2jms.appjuegos.navigation.AppScreens
+import java.util.Random
 
 @Composable
 fun nonesScreen(navController: NavController) {
@@ -41,17 +42,14 @@ fun nonesScreen(navController: NavController) {
     var numeroJugador by rememberSaveable { mutableStateOf("") }
 
     var nonesPC by rememberSaveable { mutableStateOf("") }
-    var numeroPC by rememberSaveable { mutableStateOf(0) }
+    var numeroPC by rememberSaveable { mutableIntStateOf(0) }
 
-    var suma by rememberSaveable { mutableStateOf(0) }
+    var suma by rememberSaveable { mutableIntStateOf(0) }
     var ganador by rememberSaveable { mutableStateOf("") }
     var mostrarAlertDialog by rememberSaveable { mutableStateOf(false) }
 
-    //funcion para que la PC elija entre pares o nones
-    fun elegirNonesPC() {
-        nonesPC = if (Random.nextBoolean()) "nones" else "pares"
-    }
-    
+    val context = LocalContext.current
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -90,17 +88,25 @@ fun nonesScreen(navController: NavController) {
 
         Button(
             onClick = {
-                elegirNonesPC()
-                // Genera un número aleatorio entre 1 y 5 para la PC
+
+                //genero de forma aleatoria que el PC escoja entre pares o nones
+                nonesPC = if (Random().nextBoolean()) "nones" else "pares"
+                //genero un numero aleatorio entre 1 y 5 para la PC
                 numeroPC = (1..5).random()
                 suma = numeroJugador.toInt() + numeroPC
 
-                if ((nonesJugador == "nones" && suma % 2 != 0) || (nonesJugador == "pares" && suma % 2 == 0)) {
-                    mostrarAlertDialog = true
-                    ganador = "Jugador"
-                } else {
-                    mostrarAlertDialog = true
-                    ganador = "PC"
+                //si el numero del jugador es mayor o igual a 1 y es menor o igual a 5. si no saca mensaje de que el numero tiene que ser entre 1 y 5
+                if(numeroJugador.toInt() >= 1 || numeroJugador.toInt() <= 5) {
+                    //si es nones y es impar la suma o si es pares y es par la suma muestra el alertdialog con el ganador segun la suma de los numeros
+                    if ((nonesJugador == "nones" && suma % 2 != 0) || (nonesJugador == "pares" && suma % 2 == 0)) {
+                        mostrarAlertDialog = true
+                        ganador = "pares"
+                    } else {
+                        mostrarAlertDialog = true
+                        ganador = "nones"
+                    }
+                }else{
+                    Toast.makeText(context, "El numero debe ser entre 1 y 5", Toast.LENGTH_SHORT).show()
                 }
             },
             modifier = Modifier
@@ -111,5 +117,4 @@ fun nonesScreen(navController: NavController) {
             Text(text = "JUGAR")
         }
     }
-
 }
